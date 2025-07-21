@@ -1,4 +1,4 @@
-import type {KanbanAction, KanbanState, Task, List} from "./types";
+import type {KanbanAction, KanbanState} from "./types";
 import { createContext, useContext, useReducer } from "react";
 
 const InitialState: KanbanState = {
@@ -49,7 +49,7 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
   }
   case "move-list":{
    const newOrder = [...state.listOrder];
-   const [removed] = newOrder.splice(action.sourceIndex, 1);
+   const [removed] = newOrder.splice(action.sourceIndex, 1); // destructure the returned splice 
    newOrder.splice(action.destIndex, 0, removed);
    return {...state, listOrder: newOrder};
   }
@@ -60,7 +60,7 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
 
 const KanbanContext = createContext<{state: KanbanState; dispatch: React.Dispatch<KanbanAction>;} | undefined>(undefined);
 
-export function KanbanProvider({ children }: { children: React.ReactNode }) {
+export function KanbanProvider({ children }:{children:React.ReactNode}) {
   const [state, dispatch] = useReducer(kanbanReducer, InitialState);
   return (
     <KanbanContext.Provider value={{ state, dispatch }}>
