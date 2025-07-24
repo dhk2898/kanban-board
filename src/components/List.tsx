@@ -17,11 +17,13 @@ function List ({listId}: {listId: string}){
  }
 
  return(
- <div className = 'list-container'>
+ <div className = 'list-title'>
   <h3>{list.title}</h3>
+  <input value = {newTaskContent} onChange = {e => setNewTaskContent(e.target.value)} placeholder="New Task"/>
+  <button onClick = {handleAddTask}>Add Task</button>
   <Droppable droppableId={listId} type="task">
-    {(provided) => (
-        <div ref={provided.innerRef} {...provided.droppableProps}>
+    {(provided, snapshot) => (
+        <div ref={provided.innerRef} {...provided.droppableProps}  className={`task-list ${snapshot.isDraggingOver ? 'is-dragging-over' : ''}`}>
         {list.taskIds.map((taskId, index) => (
             <Draggable draggableId={taskId} index={index} key={taskId}>
             {(provided) => (
@@ -39,8 +41,6 @@ function List ({listId}: {listId: string}){
         </div>
     )}
   </Droppable>
-  <input value = {newTaskContent} onChange = {e => setNewTaskContent(e.target.value)} placeholder="New Task"/>
-  <button onClick = {handleAddTask}>Add Task</button>
  </div>)
 }
 

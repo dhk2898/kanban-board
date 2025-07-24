@@ -52,10 +52,10 @@ function Board(){
     <DragDropContext onDragEnd={handleDragEnd}>
     <div>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
-            {(provided) => (<div ref={provided.innerRef} {...provided.droppableProps}>
+            {(provided) => (<div ref={provided.innerRef} {...provided.droppableProps} className="board">
                 {state.listOrder.map((listId, index) => 
                 (<Draggable key ={listId} draggableId={listId} index = {index}>
-                    {(provided) => (<div ref = {provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    {(provided) => (<div className = "list" ref = {provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         <List listId={listId} />
                     </div>)}
                 </Draggable>))}

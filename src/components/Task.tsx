@@ -6,7 +6,7 @@ function Task({taskId} : {taskId: string}){
  const task = state.tasks[taskId];
 
  return(
-  <div className = "task-card">
+  <div className = "task">
    {task.content}
   </div>
  );
