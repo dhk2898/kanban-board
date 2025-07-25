@@ -53,6 +53,19 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
    newOrder.splice(action.destIndex, 0, removed);
    return {...state, listOrder: newOrder};
   }
+  case "edit-task":{
+    const {taskId, updatedFields} = action;
+    return{
+      ...state,
+      tasks:{
+        ...state.tasks,
+        [taskId]: {
+          ...state.tasks[taskId],
+          ...updatedFields
+        }
+      }
+    }
+  }
   default:
    return state;
  }

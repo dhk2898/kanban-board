@@ -7,6 +7,7 @@ export type List = {
 export type Task = {
  id: string;
  content: string;
+ description?: string;
 }
 
 export type Board ={
@@ -26,5 +27,5 @@ export type KanbanAction =
 | {type: "move-task"; sourceListId: string; destListId: string; taskId: string; destIndex: number}
 | {type: "add-list"; list: List}
 | {type: "move-list"; sourceIndex: number; destIndex: number}
-
+| {type: "edit-task"; taskId: string, updatedFields: {content: string, title: string}}
 
