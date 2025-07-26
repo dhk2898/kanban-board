@@ -1,20 +1,34 @@
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { useKanban } from "./KanbanContext";
 import Task from "./Task.tsx";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import {v4 as uuidv4} from 'uuid';
 
 function List ({listId}: {listId: string}){
  const{state, dispatch} = useKanban();
  const list = state.lists[listId];
- const [newTaskContent, setNewTaskContent] = useState('');
+ const [newTaskContent, setNewTaskContent] = useState<string>('');
+ const taskListRef = useRef<HTMLDivElement>(null);
 
  function handleAddTask(){
-  if (!newTaskContent.trim()) return;
-  const task = {id: uuidv4(), content: newTaskContent};
+  //if (!newTaskContent.trim()) return;
+  let taskContent: string;
+  if (!newTaskContent.trim()){
+    taskContent = `Task ${state.taskCounter}`
+  } else {
+    taskContent = newTaskContent
+  }
+  const task = {id: uuidv4(), content: taskContent};
   dispatch({type: 'add-task', listId, task});
   setNewTaskContent('');
  }
+
+ useEffect(() =>{
+    const element = taskListRef.current;
+    if (element){
+        element.scrollTop = element.scrollHeight;
+    }
+ }, [list.taskIds.length]);
 
  return(
  <div className = 'list-title'>

@@ -20,6 +20,7 @@ export type KanbanState = {
  tasks: Record<string, Task>;
  lists: Record<string, List>;
  listOrder: string[];
+ taskCounter: number;
 }
 
 export type KanbanAction =

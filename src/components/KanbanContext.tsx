@@ -4,7 +4,8 @@ import { createContext, useContext, useReducer } from "react";
 const InitialState: KanbanState = {
  tasks: {},
  lists: {},
- listOrder: []
+ listOrder: [],
+ taskCounter: 1
 };
 
 function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
@@ -18,7 +19,8 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
     lists:{
      ...state.lists,
      [listId]: {...list, taskIds: [...list.taskIds, task.id]}
-    }
+    },
+    taskCounter: state.taskCounter + 1
    };
   }
   case "move-task":{

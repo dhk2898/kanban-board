@@ -13,7 +13,7 @@ function Task({taskId} : {taskId: string}){
    <div className = "task" onClick ={() => setIsEditing(true)}>
     <strong>{task.content}</strong>
    </div>
-   {isEditing && (<TaskModal taskId={taskId} onClose={() => setIsEditing(false)}/>)}
+   {isEditing && (<TaskModal taskId={taskId} onClose={() => setIsEditing(false)} isEditingInitial = {false}/>)}
   </>
  );
 }
