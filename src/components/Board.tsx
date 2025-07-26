@@ -10,12 +10,14 @@ function Board(){
  const [newListTitle, setNewListTitle] = useState('');
 
  function handleAddList(){
-  if (!newListTitle.trim()) return;
-  const newList = {
-   id: uuidv4(),
-   title: newListTitle,
-   taskIds:[]
+  //if (!newListTitle.trim()) return;
+  let listTitle: string;
+  if (!newListTitle.trim()){
+    listTitle = `List ${state.listCounter}`
+  } else {
+    listTitle = newListTitle
   }
+  const newList = {id: uuidv4(), title: listTitle, taskIds:[]}
   dispatch({type: "add-list", list: newList})
   setNewListTitle('');
  }
@@ -51,6 +53,10 @@ function Board(){
  return(
     <DragDropContext onDragEnd={handleDragEnd}>
     <div>
+        <div>
+            <input type = 'text' placeholder = 'New List Title' value = {newListTitle} onChange = {(e) => setNewListTitle(e.target.value)}/>
+            <button onClick = {handleAddList}>Add List</button>
+        </div>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
             {(provided) => (<div ref={provided.innerRef} {...provided.droppableProps} className="board">
                 {state.listOrder.map((listId, index) => 
@@ -62,10 +68,6 @@ function Board(){
                 {provided.placeholder}
                 </div>)}
         </Droppable>
-        <div>
-            <input type = 'text' placeholder = 'New List Title' value = {newListTitle} onChange = {(e) => setNewListTitle(e.target.value)}/>
-            <button onClick = {handleAddList}>Add List</button>
-        </div>
     </div>
     </DragDropContext>
  );

@@ -5,7 +5,8 @@ const InitialState: KanbanState = {
  tasks: {},
  lists: {},
  listOrder: [],
- taskCounter: 1
+ taskCounter: 1,
+ listCounter: 1
 };
 
 function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
@@ -46,7 +47,8 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
    return {
     ...state, 
     lists:{...state.lists, [list.id]: list},
-    listOrder: [...state.listOrder, list.id]
+    listOrder: [...state.listOrder, list.id],
+    listCounter: state.listCounter + 1
    }
   }
   case "move-list":{
