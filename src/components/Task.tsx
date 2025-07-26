@@ -12,7 +12,6 @@ function Task({taskId} : {taskId: string}){
   <>
    <div className = "task" onClick ={() => setIsEditing(true)}>
     <strong>{task.content}</strong>
-    {task.description && <p>{task.description.slice(0, 40)}</p>}
    </div>
    {isEditing && (<TaskModal taskId={taskId} onClose={() => setIsEditing(false)}/>)}
   </>

@@ -1,4 +1,4 @@
-import { useState, type Dispatch } from "react";
+import { useState} from "react";
 import { useKanban } from "./KanbanContext";
 
 
@@ -13,7 +13,9 @@ function TaskModal({taskId, onClose} : {taskId: string, onClose: () => void}){
   dispatch({
    type: 'edit-task',
    taskId,
-   updatedFields: {title: title, content: description}
+   updatedFields: 
+   {content: title, 
+    description: description},
   });
   onClose();
  }
