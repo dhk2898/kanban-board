@@ -1,6 +1,6 @@
-import { useState, type Dispatch } from "react";
+import { useState} from "react";
+import { PRIORITY_OPTIONS, type Task } from "./types";
 import { useKanban } from "./KanbanContext";
-
 
 function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClose: () => void, isEditingInitial: boolean}){
  const {state, dispatch} = useKanban();
@@ -9,16 +9,17 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
  const [isEditing, setIsEditing] = useState<boolean>(isEditingInitial);
  const [title, setTitle] = useState<string>(task.content);
  const [description, setDescription] = useState<string>(task.description || '');
+ const [priority, setPriority] = useState<Task["priority"]>(task.priority || null);
+ const [dueDate, setDueDate] = useState<string>(task.dueDate || "");
 
  function handleSave(){
   dispatch({
    type: 'edit-task',
    taskId,
-   updatedFields: {content: title, description: description}
+   updatedFields: {content: title, description: description, priority: priority, dueDate: dueDate},
   });
   setIsEditing(false);
  }
-
 
 
  return(
@@ -28,6 +29,21 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
      <h2>Edit Task</h2>
      <input value = {title} onChange={(e) => setTitle(e.target.value)} placeholder="Title"/>
      <textarea value = {description} onChange={(e) => setDescription(e.target.value)} placeholder = "Description" />
+
+     <div> Due Date:
+      <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)}/>
+     </div>
+
+     <div> Priority:
+      <select value = {priority || ""} onChange = {(e) => {
+       const value = e.target.value;
+       setPriority(value === "" ? null : (value as Task["priority"]))
+      }}>
+       <option value = "">No priority</option>
+       {PRIORITY_OPTIONS.map((p) => (<option key = {p} value = {p}> {p} </option>))}
+      </select>
+     </div>
+
      <button onClick = {handleSave}>Save</button>
      <button onClick = {() => setIsEditing(false)}>Cancel</button>
     </>) :
@@ -35,6 +51,8 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
      <>
       <h2>{task.content}</h2>
       <p>{task.description || 'No provided description'}</p>
+      <p>{task.dueDate}</p>
+      <p>{task.priority}</p>
       <button onClick = {() => setIsEditing(true)}>Edit</button>
       <button onClick = {onClose}>Close</button>
      </>

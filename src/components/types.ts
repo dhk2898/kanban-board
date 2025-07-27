@@ -1,3 +1,6 @@
+export const PRIORITY_OPTIONS = ["high", "medium", "low"] as const;
+
+
 export type List = {
  id: string;
  title: string; 
@@ -8,6 +11,8 @@ export type Task = {
  id: string;
  content: string;
  description?: string;
+ dueDate?: string,
+ priority?: typeof PRIORITY_OPTIONS[number] | null;
 }
 
 export type Board ={
@@ -29,5 +34,5 @@ export type KanbanAction =
 | {type: "move-task"; sourceListId: string; destListId: string; taskId: string; destIndex: number}
 | {type: "add-list"; list: List}
 | {type: "move-list"; sourceIndex: number; destIndex: number}
-| {type: "edit-task"; taskId: string, updatedFields: {content: string, description: string}}
+| {type: "edit-task"; taskId: string, updatedFields: Partial<Task>}
 
