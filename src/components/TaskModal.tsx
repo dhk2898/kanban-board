@@ -19,6 +19,8 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
   setIsEditing(false);
  }
 
+
+
  return(
   <div className = "modal">
    <div className = "modal-content">
