@@ -32,24 +32,14 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.task {
-  background-color: #fff;
-  margin: 8px;
-  padding: 10px;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  border: 1px solid #dfe1e6;
-  cursor: grab;
-}
-
-
 .task-list {
   background-color: #f8f9fa;
   padding: 8px;
   min-height: 10px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
-  max-height: calc(100vh - 120px);;
+  max-height: calc(100vh - 120px);
+  ;
   overflow-y: auto;
   scroll-behavior: smooth;
   box-sizing: border-box;
@@ -62,6 +52,51 @@
   background-color: #9bf0c4;
 }
 
+/*#region task stylings */
+.task {
+  background-color: #fff;
+  margin: 8px;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #dfe1e6;
+  cursor: grab;
+}
+
+.priority-high {
+  border-left: 6px solid #e74c3c;
+}
+
+.priority-medium {
+  border-left: 6px solid #f39c12;
+}
+
+.priority-low {
+  border-left: 6px solid #27ae60;
+}
+
+.overdue.priority-high {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.overdue.priority-medium {
+  background-color: rgba(243, 156, 18, 0.1);
+}
+
+.overdue.priority-low {
+  background-color: rgba(39, 174, 96, 0.1);
+}
+
+.task.overdue::after {
+  content: "Overdue";
+  color: #c0392b;
+  font-size: 0.75rem;
+  margin-left: 8px;
+}
+/*#endregion task stylings */
+
+
+/*#region modal styling */
 .modal {
   position: fixed;
   top: 0; left: 0;
@@ -85,5 +120,5 @@
   margin: 8px 0;
 }
 
-
+/*#endregion */
 
