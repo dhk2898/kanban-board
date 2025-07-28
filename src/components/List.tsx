@@ -10,8 +10,29 @@ function List ({listId}: {listId: string}){
  const [newTaskContent, setNewTaskContent] = useState<string>('');
  const taskListRef = useRef<HTMLDivElement>(null);
 
+ const sortedTaskIds = [...list.taskIds].sort((a, b) => {
+  const taskA = state.tasks[a];
+  const taskB = state.tasks[b];
+
+  const priorityOrder = {high: 3, medium: 2, low: 1, null: 0};
+
+  const priorityA = taskA.priority ? priorityOrder[taskA.priority] : 0;
+  const priorityB = taskB.priority ? priorityOrder[taskB.priority] : 0;
+
+  if (priorityA !== priorityB){
+    return priorityB - priorityA;
+  }
+
+  // date sorting for priority overlaps
+  if (taskA.dueDate && taskB.dueDate)
+  {
+    return new Date(taskA.dueDate).getTime() - new Date(taskB.dueDate).getTime();
+  }
+
+  return 0;
+ })
+
  function handleAddTask(){
-  //if (!newTaskContent.trim()) return;
   let taskContent: string;
   if (!newTaskContent.trim()){
     taskContent = `Task ${state.taskCounter}`
@@ -38,7 +59,7 @@ function List ({listId}: {listId: string}){
   <Droppable droppableId={listId} type="task">
     {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}  className={`task-list ${snapshot.isDraggingOver ? 'is-dragging-over' : ''}`}>
-        {list.taskIds.map((taskId, index) => (
+        {sortedTaskIds.map((taskId, index) => (
             <Draggable draggableId={taskId} index={index} key={taskId}>
             {(provided) => (
                 <div
