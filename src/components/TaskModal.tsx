@@ -62,6 +62,4 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
  )
 }
 
-
-
 export default TaskModal
