@@ -54,8 +54,8 @@ function List ({listId}: {listId: string}){
  return(
  <div className = 'list-title'>
   <h3>{list.title}</h3>
-  <input value = {newTaskContent} onChange = {e => setNewTaskContent(e.target.value)} placeholder="New Task"/>
-  <button onClick = {handleAddTask}>Add Task</button>
+  <input value = {newTaskContent} onChange = {e => setNewTaskContent(e.target.value)} placeholder="New Task" className = 'task'/>
+  <button onClick = {handleAddTask} className = 'task'>Add Task</button>
   <Droppable droppableId={listId} type="task">
     {(provided, snapshot) => (
         <div ref={provided.innerRef} {...provided.droppableProps}  className={`task-list ${snapshot.isDraggingOver ? 'is-dragging-over' : ''}`}>

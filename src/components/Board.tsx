@@ -2,6 +2,7 @@ import { useKanban } from "./KanbanContext";
 import List from "./List.tsx";
 import {v4 as uuidv4} from 'uuid';
 import { useState } from "react";
+import ThemeToggle from "./ThemeToggle.tsx";
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
 
 
@@ -53,9 +54,10 @@ function Board(){
  return(
     <DragDropContext onDragEnd={handleDragEnd}>
     <div>
-        <div>
-            <input type = 'text' placeholder = 'New List Title' value = {newListTitle} onChange = {(e) => setNewListTitle(e.target.value)}/>
-            <button onClick = {handleAddList}>Add List</button>
+        <div className = 'header-bar'>
+            <input type = 'text' placeholder = 'New List Title' value = {newListTitle} onChange = {(e) => setNewListTitle(e.target.value)} className = 'task'/>
+            <button onClick = {handleAddList} className = 'header-bar'>Add List</button>
+            <ThemeToggle />
         </div>
         <Droppable droppableId="all-lists" direction="horizontal" type="list">
             {(provided) => (<div ref={provided.innerRef} {...provided.droppableProps} className="board">
