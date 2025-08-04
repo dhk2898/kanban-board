@@ -1,13 +1,15 @@
 import './App.css'
 import { KanbanProvider } from './components/KanbanContext'
+import { ThemeProvider } from './components/ThemeContext'
 import Board from './components/Board'
-
 function App() {
 
   return (
-    <KanbanProvider>
-      <Board/>
-    </KanbanProvider>
+    <ThemeProvider>
+      <KanbanProvider>
+        <Board/>
+      </KanbanProvider>
+    </ThemeProvider>
   )
 }
 

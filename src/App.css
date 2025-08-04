@@ -1,3 +1,29 @@
+:root {
+  --bg: #ffffff;
+  --fg: #000000;
+  --card-bg: #f5f5f5;
+  --card-border: #000000;
+  --list-text: #000000;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --fg: #ffffff;
+  --card-bg: #222121;
+  --card-border: #858585;
+  --list-text: #cfcece;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+
 .board {
   display: flex;
   flex-direction: row;
@@ -5,7 +31,7 @@
   padding: 16px;
   overflow-x: auto;
   overflow-y: hidden;          
-  background-color: #f4f5f7;
+  background-color: var(--bg);
   height: auto; 
   min-height: 90vh;                
   align-items: flex-start;
@@ -13,7 +39,8 @@
 
 
 .list {
-  background-color: #ffffff;
+  background-color: var(--bg);
+  color: var(--list-text);
   border: 1px solid #ccc;
   border-radius: 8px;
   width: 272px;
@@ -29,11 +56,11 @@
 .list-title {
   font-weight: bold;
   padding: 12px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--bg);
 }
 
 .task-list {
-  background-color: #f8f9fa;
+  background-color: var(--bg);
   padding: 8px;
   min-height: 10px;
   border-radius: 4px;
@@ -54,12 +81,13 @@
 
 /*#region task stylings */
 .task {
-  background-color: #fff;
+  background-color: var(--card-bg);
+  color: var(--card-border);
   margin: 8px;
   padding: 10px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  border: 1px solid #dfe1e6;
+  border: 1px solid var(--card-border);
   cursor: grab;
 }
 
@@ -107,7 +135,7 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg);
   padding: 16px;
   border-radius: 8px;
   width: 400px;
@@ -122,3 +150,7 @@
 
 /*#endregion */
 
+.header-bar{
+  background: var(--bg);
+  color: var(--fg);
+}
