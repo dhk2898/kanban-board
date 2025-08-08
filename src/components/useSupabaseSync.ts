@@ -55,8 +55,10 @@ export function useSupabaseSync(){
             }
 
             for (const task of tasks || []) {
-                console.log("Processing task", task);
-                taskMap[task.id] = task;
+                taskMap[task.id] = {
+                    ...task,
+                    dueDate: task.due_date || "", 
+                };
                 if (listMap[task.owning_list_id]){
                     listMap[task.owning_list_id].taskIds.push(task.id);
                 } else {
@@ -80,17 +82,17 @@ export function useSupabaseSync(){
         })();
     }, [user, dispatch]);
 
-    useEffect(() => {
-        const unsubscribe = supabase
-        .channel('kanban-updates')
-        .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'tasks'}, (payload) => {
-            console.log("new task: ", payload);
-        }).subscribe();
+    // useEffect(() => {
+    //     const unsubscribe = supabase
+    //     .channel('kanban-updates')
+    //     .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'tasks'}, (payload) => {
+    //         console.log("new task: ", payload);
+    //     }).subscribe();
 
-        return () => {
-            unsubscribe.unsubscribe();
-        };
-    }, []);
+    //     return () => {
+    //         unsubscribe.unsubscribe();
+    //     };
+    // }, []);
 }
 
 export async function insertListToSupabase(list: List, boardId: number | null)
@@ -111,7 +113,7 @@ export async function insertListToSupabase(list: List, boardId: number | null)
 
 export async function insertTaskToSupabase(task: Task)
 {
-    const {data, error} = await supabase.from('tasks').insert({
+    const {error} = await supabase.from('tasks').insert({
         id: task.id,
         description: task.description,
         content: task.content,
@@ -122,16 +124,15 @@ export async function insertTaskToSupabase(task: Task)
     }).select();
 
     if (error) console.error("Error inserting task: ", error);
-    console.log("Inserted task:", data);
 }
 
-export async function updateTaskInSupabase(task: Task, listId: string, boardId: string) {
+export async function updateTaskInSupabase(task: Task) {
     const {error} = await supabase.from('tasks').update({
         id: task.id,
         description: task.description,
         content: task.content,
-        owning_list_id: listId,
-        owning_board_id: boardId,
+        owning_list_id: task.list_id,
+        owning_board_id: task.board_id,
         due_date: task.dueDate,
         priority: task.priority,
     }).eq('id', task.id);

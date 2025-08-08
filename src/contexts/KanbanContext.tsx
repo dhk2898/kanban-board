@@ -16,8 +16,6 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
       return action.state;
     }
     case "add-task":{
-      console.log("Reducer add-task", action.task);
-      console.log("List before add:", state.lists[action.listId]);
 
       const {listId, task} = action;
       const list = state.lists[listId]

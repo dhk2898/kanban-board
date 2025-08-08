@@ -1,6 +1,7 @@
 import { useState} from "react";
 import { PRIORITY_OPTIONS, type Task } from "../lib/types";
 import { useKanban } from "../contexts/KanbanContext";
+import { updateTaskInSupabase } from "./useSupabaseSync";
 
 function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClose: () => void, isEditingInitial: boolean}){
  const {state, dispatch} = useKanban();
@@ -13,12 +14,20 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
  const [dueDate, setDueDate] = useState<string>(task.dueDate || "");
 
  function handleSave(){
-  dispatch({
-   type: 'edit-task',
-   taskId,
-   updatedFields: {content: title, description: description, priority: priority, dueDate: dueDate},
-  });
-  setIsEditing(false);
+    const updatedTask = {
+        ...task,
+        content: title,
+        description: description,
+        priority: priority,
+        dueDate: dueDate,
+    }
+    dispatch({
+        type: 'edit-task',
+        taskId,
+        updatedFields: {content: title, description: description, priority: priority, dueDate: dueDate},
+    });
+    updateTaskInSupabase(updatedTask);
+    setIsEditing(false);
  }
 
 
@@ -51,7 +60,7 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
      <>
       <h2>{task.content}</h2>
       <p>{task.description || 'No provided description'}</p>
-      <p>{task.dueDate}</p>
+      <p>Due: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "None"}</p>
       <p>{task.priority}</p>
       <button className = 'task' onClick = {() => setIsEditing(true)}>Edit</button>
       <button className = 'task' onClick = {onClose}>Close</button>
