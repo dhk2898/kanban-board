@@ -80,6 +80,19 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
         },
       };
     }
+
+    case "delete-task":{
+      const{[action.taskId]: _,...remainingTasks} = state.tasks;
+      const newLists = {...state.lists};
+      for (const list of Object.values(newLists)){
+        list.taskIds = list.taskIds.filter((id) => id ! === action.taskId);
+      }
+      return{
+        ...state,
+        tasks: remainingTasks,
+        lists: newLists,
+      }
+    }
     default:
       return state;
     }

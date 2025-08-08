@@ -1,7 +1,7 @@
 import { useState} from "react";
 import { PRIORITY_OPTIONS, type Task } from "../lib/types";
 import { useKanban } from "../contexts/KanbanContext";
-import { updateTaskInSupabase } from "./useSupabaseSync";
+import { updateTaskInSupabase, deleteTaskFromSupabase } from "./useSupabaseSync";
 
 function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClose: () => void, isEditingInitial: boolean}){
  const {state, dispatch} = useKanban();
@@ -44,10 +44,9 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
      </div>
 
      <div> Priority:
-      <select value = {priority || ""} onChange = {(e) => {
-       const value = e.target.value;
-       setPriority(value === "" ? null : (value as Task["priority"]))
-      }}>
+        <select value = {priority || ""} onChange = {(e) => {
+            const value = e.target.value; 
+            setPriority(value === "" ? null : (value as Task["priority"])) }}>
        <option value = "">No priority</option>
        {PRIORITY_OPTIONS.map((p) => (<option key = {p} value = {p}> {p} </option>))}
       </select>
@@ -63,6 +62,7 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
       <p>Due: {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : "None"}</p>
       <p>{task.priority}</p>
       <button className = 'task' onClick = {() => setIsEditing(true)}>Edit</button>
+      <button className = 'task' onClick = {() => {dispatch({type: 'delete-task', taskId}); deleteTaskFromSupabase(taskId); onClose();}}>Delete</button>
       <button className = 'task' onClick = {onClose}>Close</button>
      </>
     )}

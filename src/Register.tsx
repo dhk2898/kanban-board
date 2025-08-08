@@ -1,7 +1,6 @@
-import {useContext, useEffect, useState, type FormEvent} from 'react';
+import { useState, type FormEvent} from 'react';
 import { supabase } from './lib/supabaseClient';
 import { type AuthResponse } from '@supabase/supabase-js';
-import { AuthContext } from './contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 function Register()
@@ -9,7 +8,6 @@ function Register()
     const [email, setEmail] = useState<string>('');
     const [password,setPassword] = useState<string>('');
     const [message, setMessage] = useState<string>('');
-    const {session} = useContext(AuthContext);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

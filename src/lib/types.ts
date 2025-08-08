@@ -39,4 +39,5 @@ export type KanbanAction =
 | {type: "move-list"; sourceIndex: number; destIndex: number}
 | {type: "edit-task"; taskId: string, updatedFields: Partial<Task>}
 | {type: "load-board"; state: KanbanState}
+| {type: "delete-task"; taskId: string}
 
