@@ -1,10 +1,11 @@
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import { useKanban } from "./KanbanContext";
+import { useKanban } from "../contexts/KanbanContext";
 import Task from "./Task.tsx";
 import { useState, useRef, useEffect } from "react";
 import {v4 as uuidv4} from 'uuid';
+import { useSupabaseSync, insertTaskToSupabase } from "./useSupabaseSync.ts";
 
-function List ({listId}: {listId: string}){
+function List ({listId, boardId}:{listId: string, boardId: number | null}){
  const{state, dispatch} = useKanban();
  const list = state.lists[listId];
  const [newTaskContent, setNewTaskContent] = useState<string>('');
@@ -39,8 +40,16 @@ function List ({listId}: {listId: string}){
   } else {
     taskContent = newTaskContent
   }
-  const task = {id: uuidv4(), content: taskContent};
+  const task = {
+    id: uuidv4(), 
+    content: taskContent,
+    list_id: listId,
+    board_id: boardId,
+    position: state.tasks ? Object.keys(state.tasks).length : 0,
+    updated_at: new Date().toISOString(), };
+    
   dispatch({type: 'add-task', listId, task});
+  insertTaskToSupabase(task);
   setNewTaskContent('');
  }
 

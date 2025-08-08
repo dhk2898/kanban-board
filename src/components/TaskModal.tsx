@@ -1,6 +1,6 @@
 import { useState} from "react";
-import { PRIORITY_OPTIONS, type Task } from "./types";
-import { useKanban } from "./KanbanContext";
+import { PRIORITY_OPTIONS, type Task } from "../lib/types";
+import { useKanban } from "../contexts/KanbanContext";
 
 function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClose: () => void, isEditingInitial: boolean}){
  const {state, dispatch} = useKanban();
@@ -44,8 +44,8 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
       </select>
      </div>
 
-     <button onClick = {handleSave}>Save</button>
-     <button onClick = {() => setIsEditing(false)}>Cancel</button>
+     <button className = 'task' onClick = {handleSave}>Save</button>
+     <button className = 'task' onClick = {() => setIsEditing(false)}>Cancel</button>
     </>) :
     (
      <>
@@ -53,8 +53,8 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
       <p>{task.description || 'No provided description'}</p>
       <p>{task.dueDate}</p>
       <p>{task.priority}</p>
-      <button onClick = {() => setIsEditing(true)}>Edit</button>
-      <button onClick = {onClose}>Close</button>
+      <button className = 'task' onClick = {() => setIsEditing(true)}>Edit</button>
+      <button className = 'task' onClick = {onClose}>Close</button>
      </>
     )}
    </div>

@@ -1,12 +1,13 @@
-import { useKanban } from "./KanbanContext";
+import { useKanban } from "../contexts/KanbanContext";
 import List from "./List.tsx";
 import {v4 as uuidv4} from 'uuid';
 import { useState } from "react";
 import ThemeToggle from "./ThemeToggle.tsx";
 import { DragDropContext, Draggable, Droppable, type DropResult } from "@hello-pangea/dnd";
-
+import { insertListToSupabase, useSupabaseSync } from "./useSupabaseSync.ts";
 
 function Board(){
+ useSupabaseSync();
  const {state, dispatch} = useKanban();
  const [newListTitle, setNewListTitle] = useState('');
 
@@ -18,8 +19,10 @@ function Board(){
   } else {
     listTitle = newListTitle
   }
-  const newList = {id: uuidv4(), title: listTitle, taskIds:[]}
+  const newList = {id: uuidv4(), title: listTitle, taskIds:[],}
   dispatch({type: "add-list", list: newList})
+  insertListToSupabase(newList, state.boardId);
+  console.log(state.listOrder);
   setNewListTitle('');
  }
 
@@ -49,9 +52,9 @@ function Board(){
         destListId: destination.droppableId,
         destIndex: destination.index,
     });
- }
+}
 
- return(
+return(
     <DragDropContext onDragEnd={handleDragEnd}>
     <div>
         <div className = 'header-bar'>
@@ -64,7 +67,7 @@ function Board(){
                 {state.listOrder.map((listId, index) => 
                 (<Draggable key ={listId} draggableId={listId} index = {index}>
                     {(provided) => (<div className = "list" ref = {provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                        <List listId={listId} />
+                        <List listId={listId} boardId = {state.boardId}/>
                     </div>)}
                 </Draggable>))}
                 {provided.placeholder}
@@ -73,6 +76,7 @@ function Board(){
     </div>
     </DragDropContext>
  );
+
 
 }
 export default Board

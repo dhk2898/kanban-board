@@ -1,4 +1,4 @@
-import { useKanban } from "./KanbanContext";
+import { useKanban } from "../contexts/KanbanContext";
 import { useState } from "react";
 import TaskModal from "./TaskModal";
 

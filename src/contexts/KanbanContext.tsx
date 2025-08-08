@@ -2,18 +2,26 @@ import type { KanbanAction, KanbanState } from "../lib/types";
 import { createContext, useContext, useReducer } from "react";
 
 const InitialState: KanbanState = {
- tasks: {},
- lists: {},
- listOrder: [],
- taskCounter: 1,
- listCounter: 1
+  boardId: null,
+  tasks: {},
+  lists: {},
+  listOrder: [],
+  taskCounter: 1,
+  listCounter: 1
 };
 
 function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
   switch(action.type){
+    case "load-board":{
+      return action.state;
+    }
     case "add-task":{
+      console.log("Reducer add-task", action.task);
+      console.log("List before add:", state.lists[action.listId]);
+
       const {listId, task} = action;
       const list = state.lists[listId]
+
       return{
         ...state,
         tasks:{...state.tasks, [task.id]: task},
@@ -24,6 +32,7 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
         taskCounter: state.taskCounter + 1
       };
     }
+
     case "move-task":{
       const {sourceListId, destListId, taskId, destIndex} = action;
       const sourceList = state.lists[sourceListId];
@@ -42,33 +51,36 @@ function kanbanReducer(state: KanbanState, action: KanbanAction):KanbanState {
         }
       }
     }
+
     case "add-list":{
       const {list} = action;
+
       return {
         ...state, 
         lists:{...state.lists, [list.id]: list},
         listOrder: [...state.listOrder, list.id],
         listCounter: state.listCounter + 1
-      }
+      };
     }
+    
     case "move-list":{
       const newOrder = [...state.listOrder];
       const [removed] = newOrder.splice(action.sourceIndex, 1); // destructure the returned splice 
       newOrder.splice(action.destIndex, 0, removed);
       return {...state, listOrder: newOrder};
     }
+
     case "edit-task":{
       const {taskId, updatedFields} = action;
+      const updatedTask = {...state.tasks[taskId], ...updatedFields};
+
       return{
         ...state,
         tasks:{
           ...state.tasks,
-          [taskId]: {
-            ...state.tasks[taskId],
-            ...updatedFields
-          }
-        }
-      }
+          [taskId]: updatedTask
+        },
+      };
     }
     default:
       return state;
