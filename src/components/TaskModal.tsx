@@ -53,6 +53,7 @@ function TaskModal({taskId, onClose, isEditingInitial} : {taskId: string, onClos
      </div>
 
      <button className = 'task' onClick = {handleSave}>Save</button>
+     <button className = 'task' onClick = {() => {dispatch({type: 'delete-task', taskId}); deleteTaskFromSupabase(taskId); onClose();}}>Delete</button>
      <button className = 'task' onClick = {() => setIsEditing(false)}>Cancel</button>
     </>) :
     (

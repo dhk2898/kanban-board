@@ -23,12 +23,20 @@ function Register()
         }
     };
     
+    
+
     return(
     <form onSubmit={handleSubmit}>
         <h1>Register</h1>
         <input type = 'email' placeholder='Email' value = {email} onChange = {e => setEmail(e.target.value)} required/>
         <input type = 'password' placeholder = 'Password' value={password} onChange={e => setPassword(e.target.value)} required/>
         <button type = 'submit'>Sign Up</button>
+        <button type="button" onClick={async () => {await supabase.auth.signInWithPassword({
+            email: import.meta.env.VITE_DEMO_EMAIL!,
+            password: import.meta.env.VITE_DEMO_PASSWORD!,
+        }); }}> 
+        🚀 Try the Demo
+        </button>
         {message && <p>{message}</p>}
     </form>);
     

@@ -149,6 +149,8 @@ export async function updateListInSupabase(list: List)
     if (error) console.error("Error updating list: ", error);
 }
 
+
+
 export async function deleteTaskFromSupabase(taskId: string)
 {
     const {error} = await supabase.from("tasks").delete().eq('id', taskId);
