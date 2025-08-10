@@ -5,7 +5,6 @@ import { supabase } from "../lib/supabaseClient";
 type SignUpResponse = Awaited<ReturnType<typeof supabase.auth.signUp>>;
 type SignInResponse = Awaited<ReturnType<typeof supabase.auth.signInWithPassword>>;
 type SignOutResponse = Awaited<ReturnType<typeof supabase.auth.signOut>>;
-type SessionResponse = Awaited<ReturnType<typeof supabase.auth.getSession>>;
 type AuthStateChange = ReturnType<typeof supabase.auth.onAuthStateChange>['data']['subscription'];
 
 export interface AuthContextType{

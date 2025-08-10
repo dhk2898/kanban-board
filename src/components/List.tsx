@@ -3,7 +3,7 @@ import { useKanban } from "../contexts/KanbanContext";
 import Task from "./Task.tsx";
 import { useState, useRef, useEffect } from "react";
 import {v4 as uuidv4} from 'uuid';
-import { useSupabaseSync, insertTaskToSupabase } from "./useSupabaseSync.ts";
+import {insertTaskToSupabase } from "./useSupabaseSync.ts";
 
 function List ({listId, boardId}:{listId: string, boardId: number | null}){
  const{state, dispatch} = useKanban();

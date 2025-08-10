@@ -6,7 +6,7 @@ import type { List, Task } from "../lib/types";
 
 
 export function useSupabaseSync(){
-    const {state, dispatch} = useKanban();
+    const {dispatch} = useKanban();
     const {user} = useAuth();
 
 
